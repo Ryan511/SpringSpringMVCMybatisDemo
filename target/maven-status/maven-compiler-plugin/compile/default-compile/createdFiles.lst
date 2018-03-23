@@ -1,0 +1,3 @@
+com\demo\entity\User.class
+com\demo\dao\UserDao.class
+com\demo\service\UserService.class
