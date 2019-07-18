@@ -6,6 +6,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,13 @@ import com.demo.service.UserService;
  */
 @Controller
 public class UserController {
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
 
 	@RequestMapping("/hello")
 	public ModelAndView service(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("==============hello===========");
 		ModelAndView mv = new ModelAndView("hello");
 		List<User> users = userService.getUsers();
 		ServletContext application = ContextLoader.getCurrentWebApplicationContext().getServletContext();

@@ -20,5 +20,17 @@
 	<context:component-scan base-package="com.demo" />
 	<!-- 导入dataSource配置文件 -->
 	<import resource="spring-datasource.xml" />
-	<aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
+    <!--&lt;!&ndash;定义切面 指定拦截方法时 做什么&ndash;&gt;-->
+    <!--<aop:config>-->
+    <!--<aop:aspect ref="serviceAspect"> &lt;!&ndash;指定切面&ndash;&gt;-->
+    <!--&lt;!&ndash;定义切点&ndash;&gt;-->
+    <!--<aop:pointcut id="logpoint" expression="execution(* com.demo.service.UserService.getUsers(..))"></aop:pointcut>-->
+    <!--&lt;!&ndash;定义连接点&ndash;&gt;-->
+    <!--<aop:before pointcut-ref="logpoint" method="before"></aop:before>-->
+    <!--<aop:after pointcut-ref="logpoint" method="after"></aop:after>-->
+    <!--<aop:after-returning pointcut-ref="logpoint" method="afterReturn"></aop:after-returning>-->
+    <!--<aop:after-throwing pointcut-ref="logpoint" method="afterThrow"></aop:after-throwing>-->
+    <!--</aop:aspect>-->
+    <!--</aop:config>-->
 </beans>
