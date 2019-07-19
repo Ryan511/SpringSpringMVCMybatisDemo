@@ -23,6 +23,7 @@
             <!--定义连接点-->
             <aop:before pointcut-ref="logpoint" method="before"></aop:before>
             <aop:after pointcut-ref="logpoint" method="after"></aop:after>
+            <aop:after pointcut-ref="logpoint" method="around"></aop:after>
             <aop:after-returning pointcut-ref="logpoint" method="afterReturn"></aop:after-returning>
             <aop:after-throwing pointcut-ref="logpoint" method="afterThrow"></aop:after-throwing>
         </aop:aspect>

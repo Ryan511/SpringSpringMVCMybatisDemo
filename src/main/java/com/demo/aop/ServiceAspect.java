@@ -33,6 +33,7 @@ public class ServiceAspect {
 //    @Before("aspect()")
     public void before() {
         logger.info("before = ");
+//        throw new RuntimeException("test");
     }
 
     //配置后置通知,使用在方法aspect()上注册的切入点
@@ -44,11 +45,12 @@ public class ServiceAspect {
     //配置环绕通知,使用在方法aspect()上注册的切入点
 //    @Around("aspect()")
     public void around(JoinPoint joinPoint) {
+        logger.info("around start = " + joinPoint);
         long start = System.currentTimeMillis();
         try {
             ((ProceedingJoinPoint) joinPoint).proceed();
             long end = System.currentTimeMillis();
-            logger.info("after = " + joinPoint);
+            logger.info("around  end = " + joinPoint + "\tUse time : " + (end - start));
         } catch (Throwable e) {
             long end = System.currentTimeMillis();
             logger.info("around " + joinPoint + "\tUse time : " + (end - start) + " ms with exception : " + e.getMessage());
