@@ -1,11 +1,8 @@
 package com.demo.controller;
 
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.demo.entity.User;
+import com.demo.frame.DataSourceSwitcher;
+import com.demo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +14,11 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.demo.entity.User;
-import com.demo.service.UserService;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.util.List;
 
 /**
  * @desc:
@@ -48,6 +48,7 @@ public class UserController {
 		for (User po : users) {
 			vo = po;
 		}
+//		DataSourceSwitcher.setDatasourceKey("ds2");
 		mv.addObject("user", vo);
 		return mv;
 

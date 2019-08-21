@@ -11,13 +11,12 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
-
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.demo"/>
     <!-- 加载资源配置 -->
     <!--配置命名记得不能用driver等 要加前缀避免${}取值问题-->
-    <context:property-placeholder    location="classpath:jdbc.properties"/>
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <bean id="childDataSource1" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="${db_driver}"/>
         <property name="url" value="${db_url}"/>
@@ -46,14 +45,56 @@
         <!--<property name="maxIdle" value="20"></property>-->
         <!--&lt;!&ndash; 连接池最小空闲 &ndash;&gt;-->
         <!--<property name="minIdle" value="1"></property>-->
-         <!--&lt;!&ndash;获取连接最大等待时间&ndash;&gt;-->
+        <!--&lt;!&ndash;获取连接最大等待时间&ndash;&gt;-->
         <!--<property name="maxWait" value="6000"></property>-->
     </bean>
 
+    <bean id="childDataSource2" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${db_driver}"/>
+        <property name="url" value="${db_url2}"/>
+        <property name="username" value="${db_username}"/>
+        <property name="password" value="${db_password}"/>
+        <!--初始化连接大小-->
+        <property name="initialSize" value="${db_initialSize}"></property>
+        <!--连接池最大数量-->
+        <property name="maxActive" value="${db_maxActive}"></property>
+        <!--连接池最大空闲-->
+        <property name="maxIdle" value="${db_maxIdle}"></property>
+        <!--连接池最小空闲-->
+        <property name="minIdle" value="${db_minIdle}"></property>
+        <!--获取连接最大等待时间-->
+        <property name="maxWait" value="${db_maxWait}"></property>
+
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/fhadmin?characterEncoding=UTF-8" />-->
+        <!--<property name="username" value="root" />-->
+        <!--<property name="password" value="Revenco123" />-->
+        <!--&lt;!&ndash; 初始化连接大小 &ndash;&gt;-->
+        <!--<property name="initialSize" value="0"></property>-->
+        <!--&lt;!&ndash; 连接池最大数量 &ndash;&gt;-->
+        <!--<property name="maxActive" value="20"></property>-->
+        <!--&lt;!&ndash; 连接池最大空闲 &ndash;&gt;-->
+        <!--<property name="maxIdle" value="20"></property>-->
+        <!--&lt;!&ndash; 连接池最小空闲 &ndash;&gt;-->
+        <!--<property name="minIdle" value="1"></property>-->
+        <!--&lt;!&ndash;获取连接最大等待时间&ndash;&gt;-->
+        <!--<property name="maxWait" value="6000"></property>-->
+    </bean>
+
+    <bean id="datasourceSwitcher" class="com.demo.frame.DataSourceSwitcher">
+        <property name="targetDataSources">
+            <map>
+                <entry key="ds1" value="childDataSource1"></entry>
+                <entry key="ds2" value="childDataSource2"></entry>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" value="childDataSource1"></property>
+    </bean>
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
     <!-- 创建SqlSessionFactory -->
     <bean id="sqlSessionFactory" name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="datasourceSwitcher"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
@@ -67,6 +108,6 @@
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="datasourceSwitcher"/>
     </bean>
 </beans>

@@ -15,6 +15,7 @@ import com.demo.entity.User;
  * @create 2018年3月22日
 */
 @Service
+
 public class UserService {
 	@Autowired
 	private UserDao userDao;
