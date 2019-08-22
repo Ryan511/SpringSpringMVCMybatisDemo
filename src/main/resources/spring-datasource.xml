@@ -83,13 +83,14 @@
     </bean>
 
     <bean id="datasourceSwitcher" class="com.demo.frame.DataSourceSwitcher">
+        <property name="defaultTargetDataSource" ref="childDataSource1"></property>
         <property name="targetDataSources">
-            <map>
-                <entry key="ds1" value="childDataSource1"></entry>
-                <entry key="ds2" value="childDataSource2"></entry>
+            <map key-type="java.lang.String">
+                <entry key="ds1" value-ref="childDataSource1"></entry>
+                <entry key="ds2" value-ref="childDataSource2"></entry>
             </map>
         </property>
-        <property name="defaultTargetDataSource" value="childDataSource1"></property>
+
     </bean>
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
     <!-- 创建SqlSessionFactory -->

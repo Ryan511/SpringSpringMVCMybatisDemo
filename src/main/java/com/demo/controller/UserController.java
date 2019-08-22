@@ -48,7 +48,8 @@ public class UserController {
 		for (User po : users) {
 			vo = po;
 		}
-//		DataSourceSwitcher.setDatasourceKey("ds2");
+		DataSourceSwitcher.setDatasourceKey("ds2");
+		users = userService.getUsers();
 		mv.addObject("user", vo);
 		return mv;
 
